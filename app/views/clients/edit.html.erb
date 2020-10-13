@@ -1,0 +1,59 @@
+<div class="container">
+  <h2 class="form-group ml-5 mb-5">Edit Client</h2>
+
+  <%= form_for @client, :html => {:class => "form-horizontal center"} do |f| %>
+    <div class="form-group">
+      <%= f.label :name, "* First name:", class: "col-md-4 control-label" %>
+      <div class="col-md-8">
+        <%= f.text_field :name, required: true, class: "form-control" %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :surname, "* Last name:", class: "col-md-4 control-label" %>
+      <div class="col-md-8">
+        <%= f.text_field :surname, required: true, class: "form-control" %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :birthday, "Birthday:", class: "col-md-4 control-label" %>
+      <div class="col-md-8">
+        <%= f.date_field :birthday, class: "form-control" %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :sex, "* Sex:", class: "col-md-4 control-label" %>
+      <div class="col-md-8">
+        <%= f.select :sex, options_for_select(ALL_SEXES), { prompt: '-- Select One --'}, {required: true, class: "form-control"} %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :phone, "* Phone (10 digits without code):", class: "col-md-4 control-label" %>
+      <div class="col-md-8">
+        <%= f.text_field :phone, :maxlength => 10, required: true, class: "form-control" %>
+      </div>
+    </div>
+
+    <div class="form-group mb-5">
+      <%= f.label :email, "Email:", class: "col-md-4 control-label" %>
+      <div class="col-md-8">
+        <%= f.text_field :email, class: "form-control" %>
+      </div>
+    </div>
+
+    <div class="form-group mb-5">
+      <%= f.label :description, "Description:", class: "col-md-4 control-label" %>
+      <div class="col-md-8">
+        <%= f.text_area :description, class: "form-control" %>
+      </div>
+    </div>
+
+    <%= f.submit "Submit", class: "btn btn-default btn-primary ml-3" %>
+    <%= link_to "Back", client_path(@client), class: "btn btn-outline-primary ml-2" %>
+  <% end %>
+
+
+</div>

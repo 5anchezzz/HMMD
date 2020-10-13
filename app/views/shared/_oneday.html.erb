@@ -1,0 +1,99 @@
+<div class="card">
+  <div class="card-body d-flex justify-content-between">
+    <div class="d-flex justify-content-center" style="flex-direction: column">
+      <%
+        workload = @index_hash[:statistics][:workload]
+        if workload < 30
+          workload_class_name = 'success'
+        elsif workload >= 30 && workload < 80
+          workload_class_name = 'warning'
+        else
+          workload_class_name = 'danger'
+        end
+      %>
+      <h6 align="center">Workload, %</h6>
+      <h3 align="center"><span class="badge badge-<%= workload_class_name %>"><%= workload %></span></h3>
+    </div>
+    <div class="d-flex justify-content-center" style="flex-direction: column">
+      <%
+        max_period = @index_hash[:statistics][:period]
+        if max_period < 1
+          period_class_name = 'danger'
+        elsif max_period >= 1 && max_period < 2
+          period_class_name = 'warning'
+        else
+          period_class_name = 'success'
+        end
+      %>
+      <h6 align="center">Max available period, h.</h6>
+      <h3 align="center"><span class="badge badge-<%= period_class_name %>"><%= max_period %></span></h3>
+    </div>
+    <div class="d-flex justify-content-center" style="flex-direction: column">
+      <h6 align="center">Visits, pc.</h6>
+      <h3 align="center"><span class="badge badge-light"><%= @index_hash[:statistics][:visits] %></span></h3>
+    </div>
+  </div>
+</div>
+
+<table class="table mt-3 mb-3">
+  <tbody>
+  <% @index_hash.except(:schedule_notice, :statistics).each do |k, v| %>
+    <tr>
+      <th scope="row" style="width: 15%"><%= v[:datetime].strftime('%R') %></th>
+      <td style="padding: 2px">
+        <% if v[:state] == 'available' %>
+          <%= link_to new_visit_path(start_date_time: v[:datetime]), {:style=>'text-decoration:none; '}, :action => 'go' do %>
+<!--            <div class="btn btn-success btn-block" style="height: <%#= v[:size]*3 %>rem; display: flex; flex-direction: column; align-items: flex-end; justify-content: center;">-->
+<!--              <h6>create new Visit</h6>-->
+<!--            </div>-->
+            <div class="btn-group d-flex align-items-stretch" role="group" aria-label="Basic example" style="height: <%= v[:size]*3 %>rem;">
+              <button type="button" class="btn btn-success" style="width: 1%;"></button>
+              <button type="button" class="btn btn-light text-left" style="width: 99%;">Create new Visit</button>
+            </div>
+
+          <% end %>
+        <% else visit = Visit.find(k) %>
+          <%= link_to visit_path(visit), {:style=>'text-decoration:none; '}, :action => 'go' do %>
+<!--            <div class="btn btn-danger btn-block" style="height: <%#= v[:size]*3 %>rem; display: flex; align-items: center; justify-content: flex-start;">-->
+<!--              <h6 class="badge badge-light font-weight-light mr-2"><%#= visit.state %></h6>-->
+<!--              <h4><%#= visit.label %></h4>-->
+              <!--              <span>Client: <%#= visit.client.full_name %></span>-->
+<!--              <h6 class="font-weight-light ml-2">(<%#= visit.duration %> h.)</h6>-->
+              <!--              <span>State: <%#= visit.state %></span>-->
+<!--            </div>-->
+            <div class="btn-group d-flex align-items-stretch" role="group" aria-label="Basic example" style="height: <%= v[:size]*3 %>rem;">
+              <button type="button" class="btn btn-danger" style="width: 1%"></button>
+              <button type="button" class="btn btn-light d-flex justify-content-between" style="width: 99%; display: flex; align-items: center; justify-content: flex-start;">
+                <%
+                  case visit.state
+                  when 'waiting'
+                    visit_state_class_name = 'warning'
+                  when 'done'
+                    visit_state_class_name = 'success'
+                  when 'canceled'
+                    visit_state_class_name = 'danger'
+                  end
+                %>
+                <div>
+                  <span class="badge badge-<%= visit_state_class_name %>" style="font-size: medium"><%= visit.state %></span>
+                  <span class="ml-2 mr-2" style="font-size: larger; font-weight: bold"><%= visit.label.capitalize %></span><span> - <%= visit.client.full_name %></span></span>
+                </div>
+                  <span ><%= visit.duration %> h</span>
+                </button>
+            </div>
+
+          <% end %>
+        <% end %>
+      </td>
+      <td class="align-middle" style="width: 15%">
+        <%= button_to 'Delete', visit_path(visit), class: 'btn btn-outline-danger btn-block btn-sm', method: :delete, data: { confirm: 'Are you sure you want to DELETE this Visit?' } if v[:state] == 'booked' %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+
+<% if @index_hash[:schedule_notice] %>
+  <h6>* There are visits that go beyond the working hours set in your profile (<%= "#{current_user.start_hour}:00 - #{current_user.end_hour}:00" %>)</h6>
+<% end %>

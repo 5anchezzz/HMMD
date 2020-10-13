@@ -1,0 +1,113 @@
+<div class="container-body">
+  <div class="container" style="max-width: 70%; margin: 0">
+    <div>
+      <%= link_to "Create new Client", new_client_path, class: "btn btn-secondary btn-lg btn-block mb-3" %>
+    </div>
+
+    <div class="d-flex justify-content-between">
+      <div class="align-self-center">
+        <%= link_to "Archive", archived_clients_path, class: "btn btn-outline-secondary" %>
+        <%= link_to "Actual", clients_path, class: "btn btn-secondary disabled" %>
+      </div>
+      <h1 align="right">Clients. Actual <span class="badge badge-secondary"><%= current_user.clients.actual.size %></span></h1>
+    </div>
+
+    <table class="table table-hover mt-3">
+      <thead>
+      <tr>
+        <th scope="col" style="width: 5%">#</th>
+        <th scope="col" style="width: 15%">Name</th>
+        <th scope="col" style="width: 20%">Surname</th>
+        <th scope="col" style="width: 30%">Email</th>
+        <th scope="col" style="width: 20%">Phone</th>
+        <th scope="col" style="width: 10%"></th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @clients.each_with_index { |client, index|  %>
+        <tr>
+          <th scope="row"><%= index + 1 %></th>
+          <td><%= client.name %></td>
+          <td><%= client.surname %></td>
+          <td><%= client.email %></td>
+          <td><%= number_to_phone(client.phone, country_code: 7) %></td>
+          <td><%= link_to "Show", client_path(client), class: "btn btn-outline-secondary btn-sm" %></td>
+        </tr>
+      <% } %>
+      </tbody>
+    </table>
+    <%= paginate @clients %>
+
+  </div>
+
+
+  <div class="col" style="max-width: 20%; position: relative;">
+    <div class="search-form" style="max-width: 20%;">
+      <form>
+        <h4 class="d-flex justify-content-center mt-3 mb-3">Search clients</h4>
+        <div>
+          <%= search_form_for @q do |f| %>
+
+            <div class="row d-flex justify-content-between">
+              <div class="col form-group">
+                <%= f.label "Client Name:", class: "col-auto control-label" %>
+                <div class="col-auto">
+                  <%= f.search_field :name_cont, class: "form-control", placeholder: "contains" %>
+                </div>
+              </div>
+              <div class="col form-group">
+                <%= f.label "Client Surname:", class: "col-auto control-label" %>
+                <div class="col-auto">
+                  <%= f.search_field :surname_cont, class: "form-control", placeholder: "contains" %>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <%= f.label "Email:", class: "col-md-4 control-label" %>
+              <div class="col-auto">
+                <%= f.search_field :email_cont, class: "form-control", placeholder: "contains" %>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <%= f.label "Phone:", class: "col-md-4 control-label" %>
+              <div class="col-auto">
+                <%= f.search_field :phone_cont, class: "form-control", placeholder: "contains" %>
+              </div>
+            </div>
+
+            <div class="row d-flex justify-content-between">
+              <div class="col form-group">
+                <%= f.label "Birthday from:", class: "col-auto control-label" %>
+                <div class="col-auto">
+                  <%= f.date_field :birthday_gteq, class: "form-control", type: "date" %>
+                </div>
+              </div>
+              <div class="col form-group">
+                <%= f.label "Birthday to:", class: "col-auto control-label" %>
+                <div class="col-auto">
+                  <%= f.date_field :birthday_lteq, class: "form-control", type: "date" %>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <%= f.label "Sex:", class: "col-md-4 control-label" %>
+              <div class="col-auto">
+                <%= f.select :sex_eq, options_for_select(ALL_SEXES), { prompt: '-- Select One --' }, class: "form-control" %>
+              </div>
+            </div>
+
+            <div class="col-auto d-flex justify-content-end mt-3 mb-3">
+              <%= f.submit :Search, type: "submit", class: "btn btn-outline-success" %>
+              <%= link_to '&times;'.html_safe, request.path, class: "btn btn-light ml-3" %>
+            </div>
+          <% end %>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+</div>

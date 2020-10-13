@@ -1,0 +1,95 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+  <a class="navbar-brand ml-5" href="<%= root_path %>">
+    <img src="https://www.flaticon.com/svg/static/icons/svg/1040/1040214.svg" width="60" height="60" class="d-inline-block align-top" alt="">
+  </a>
+
+  <div class="collapse navbar-collapse" id="navbarText">
+    <ul class="navbar-nav mr-auto">
+      <%# home_class = 'active' if current_page?(root_path) %>
+<!--      <li class="nav-item <%#= home_class %>">-->
+        <%#= link_to 'Home', root_path, class: "nav-link"%>
+<!--      </li>-->
+
+<!--      ADD Redirect to Complete profile if need ot-->
+<!--      ADD Redirect to Complete profile if need ot-->
+<!--      ADD Redirect to Complete profile if need ot-->
+<!--      ADD Redirect to Complete profile if need ot-->
+
+
+      <% if user_signed_in? && current_user.state == 'completed' %>
+        <%
+          profile_class = 'active' if current_page?(user_path(@user))
+          visits_class = 'active' if current_page?(visits_path)
+          clients_class = 'active' if current_page?(clients_path)
+        %>
+
+        <li class="nav-item <%= profile_class %>">
+          <%= link_to 'Profile', user_path(@user), class: "nav-link"%>
+        </li>
+        <li class="nav-item <%= visits_class %>">
+          <%= link_to 'Visits', visits_path, class: "nav-link"%>
+        </li>
+        <li class="nav-item <%= clients_class %>">
+          <%= link_to 'Clients', clients_path, class: "nav-link"%>
+        </li>
+      <% end %>
+
+    </ul>
+
+    <div class="mr-5">
+      <ul class="navbar-nav mr-auto">
+        <% if user_signed_in? %>
+          <span class="navbar-text font-weight-bold">
+            <%= "Hi, #{current_user.name}!"%>
+          </span>
+          <li class="nav-item">
+            <%= link_to 'Sign out', destroy_user_session_path, :method => :delete, class: "nav-link"%>
+          </li>
+        <% else %>
+          <li class="nav-item">
+            <%= link_to 'Register', new_user_registration_path, class: "nav-link"%>
+          </li>
+          <li class="nav-item">
+            <%= link_to 'Sign in', new_user_session_path, class: "nav-link"%>
+          </li>
+        <% end %>
+      </ul>
+
+  </div>
+  </div>
+</nav>
+
+
+
+
+
+<!--<nav class="navbar navbar-dark bg-dark">-->
+<!--  <a class="navbar-brand" href="/">HMMD</a>-->
+<!--  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">-->
+<!--    <span class="navbar-toggler-icon"></span>-->
+<!--  </button>-->
+<!--  <div class="collapse navbar-collapse" id="navbarNav">-->
+<!--    <ul class="navbar-nav">-->
+      <%# if user_signed_in? %>
+<!--        <li class="nav-item">-->
+          <%#= link_to 'My profile', user_path(@user), class: "nav-link"%>
+<!--        </li>-->
+<!--        <li class="nav-item">-->
+          <%#= link_to 'Edit access', edit_user_registration_path, class: "nav-link"%>
+<!--        </li>-->
+<!--        <li class="nav-item">-->
+          <%#= link_to 'Sign out', destroy_user_session_path, :method => :delete, class: "nav-link"%>
+<!--        </li>-->
+      <%# else %>
+<!--        <li class="nav-item">-->
+          <%#= link_to 'Register', new_user_registration_path, class: "nav-link"%>
+<!--        </li>-->
+<!--        <li class="nav-item">-->
+          <%#= link_to 'Sign in', new_user_session_path, class: "nav-link"%>
+<!--        </li>-->
+      <%# end %>
+
+<!--    </ul>-->
+<!--  </div>-->
+<!--</nav>-->

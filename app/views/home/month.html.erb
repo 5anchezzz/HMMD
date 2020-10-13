@@ -1,0 +1,284 @@
+<div style="margin-left: 10%; margin-right: 10%;">
+  <h1><%= @begin_of_month.strftime('%B') %> <%= @begin_of_month.year %></h1>
+  <%= link_to "&#9650;".html_safe, month_path(date_for_schedule: @begin_of_month.last_month), class: "btn btn-light btn-sm btn-block mt-5 mb-3" %>
+  <table class="table table-hover text-center">
+    <thead>
+    <tr>
+      <th class="align-middle" scope="col" style="width: 5.5%; border-top: none">#</th>
+      <% ALL_DAYS.each do |day| %>
+      <% text_color = "color: rgba(244,92,86,0.55);" if day == "Saturday" || day == "Sunday" %>
+        <th class="align-middle" scope="col" style="width: 13.5%; border-top: none; <%= text_color %>"><%= day.to_s %></th>
+      <% end %>
+    </tr>
+    </thead>
+    <tbody>
+    <% @month_to_show.each { |k, v|  %>
+      <tr>
+        <th style="border-top: none; border-bottom: none;" scope="row"><%= k %></th>
+
+        <td style="border-top: none; border-bottom: none;">
+        <% if v['Monday'] %>
+
+            <%
+              if v['Monday'][:workload] < 30
+                workload_class_name = 'success'
+              elsif v['Monday'][:workload] >= 30 && v['Monday'][:workload] < 80
+                workload_class_name = 'warning'
+              else
+                workload_class_name = 'danger'
+              end
+
+              if v['Monday'][:period] < 1
+                period_class_name = 'danger'
+              elsif v['Monday'][:period] >= 1 && v['Monday'][:period] < 2
+                period_class_name = 'warning'
+              else
+                period_class_name = 'success'
+              end
+            %>
+
+            <%= link_to root_path(date_for_schedule: v['Monday'][:date]), :action => 'go' do %>
+              <div class="btn btn-light" style="width: 10rem; height: 10rem; border: 1px solid rgba(154,152,150,0.55);">
+                <h2 align="right"><%= v['Monday'][:date].strftime('%e') %></h2>
+                <br>
+                <div align="left">
+                  <span><span class="badge badge-<%= workload_class_name %>"><%= v['Monday'][:workload] %>%</span> workload</span>
+                  <br>
+                  <span><span class="badge badge-<%= period_class_name %>"><%= v['Monday'][:period] %></span> period</span>
+                  <br>
+                  <span><span class="badge badge-info"><%= v['Monday'][:visits] %></span> visits</span>
+                </div>
+              </div>
+            <% end %>
+        <% end %>
+        </td>
+
+        <td style="border-top: none; border-bottom: none;">
+          <% if v['Tuesday'] %>
+
+            <%
+              if v['Tuesday'][:workload] < 30
+                workload_class_name = 'success'
+              elsif v['Tuesday'][:workload] >= 30 && v['Tuesday'][:workload] < 80
+                workload_class_name = 'warning'
+              else
+                workload_class_name = 'danger'
+              end
+
+              if v['Tuesday'][:period] < 1
+                period_class_name = 'danger'
+              elsif v['Tuesday'][:period] >= 1 && v['Tuesday'][:period] < 2
+                period_class_name = 'warning'
+              else
+                period_class_name = 'success'
+              end
+            %>
+
+              <%= link_to root_path(date_for_schedule: v['Tuesday'][:date]), :action => 'go' do %>
+              <div class="btn btn-light" style="width: 10rem; height: 10rem; border: 1px solid rgba(154,152,150,0.55);">
+                <h2 align="right"><%= v['Tuesday'][:date].strftime('%e') %></h2>
+                <br>
+                <div align="left">
+                  <span><span class="badge badge-<%= workload_class_name %>"><%= v['Tuesday'][:workload] %>%</span> workload</span>
+                  <br>
+                  <span><span class="badge badge-<%= period_class_name %>"><%= v['Tuesday'][:period] %></span> period</span>
+                  <br>
+                  <span><span class="badge badge-info"><%= v['Tuesday'][:visits] %></span> visits</span>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+        </td>
+
+        <td style="border-top: none; border-bottom: none;">
+          <% if v['Wednesday'] %>
+
+            <%
+              if v['Wednesday'][:workload] < 30
+                workload_class_name = 'success'
+              elsif v['Wednesday'][:workload] >= 30 && v['Wednesday'][:workload] < 80
+                workload_class_name = 'warning'
+              else
+                workload_class_name = 'danger'
+              end
+
+              if v['Wednesday'][:period] < 1
+                period_class_name = 'danger'
+              elsif v['Wednesday'][:period] >= 1 && v['Wednesday'][:period] < 2
+                period_class_name = 'warning'
+              else
+                period_class_name = 'success'
+              end
+            %>
+
+            <%= link_to root_path(date_for_schedule: v['Wednesday'][:date]), :action => 'go' do %>
+              <div class="btn btn-light" style="width: 10rem; height: 10rem; border: 1px solid rgba(154,152,150,0.55);">
+                <h2 align="right"><%= v['Wednesday'][:date].strftime('%e') %></h2>
+                <br>
+                <div align="left">
+                  <span><span class="badge badge-<%= workload_class_name %>"><%= v['Wednesday'][:workload] %>%</span> workload</span>
+                  <br>
+                  <span><span class="badge badge-<%= period_class_name %>"><%= v['Wednesday'][:period] %></span> period</span>
+                  <br>
+                  <span><span class="badge badge-info"><%= v['Wednesday'][:visits] %></span> visits</span>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+        </td>
+
+        <td style="border-top: none; border-bottom: none;">
+          <% if v['Thursday'] %>
+
+            <%
+              if v['Thursday'][:workload] < 30
+                workload_class_name = 'success'
+              elsif v['Thursday'][:workload] >= 30 && v['Thursday'][:workload] < 80
+                workload_class_name = 'warning'
+              else
+                workload_class_name = 'danger'
+              end
+
+              if v['Thursday'][:period] < 1
+                period_class_name = 'danger'
+              elsif v['Thursday'][:period] >= 1 && v['Thursday'][:period] < 2
+                period_class_name = 'warning'
+              else
+                period_class_name = 'success'
+              end
+            %>
+
+            <%= link_to root_path(date_for_schedule: v['Thursday'][:date]), :action => 'go' do %>
+              <div class="btn btn-light" style="width: 10rem; height: 10rem; border: 1px solid rgba(154,152,150,0.55);">
+                <h2 align="right"><%= v['Thursday'][:date].strftime('%e') %></h2>
+                <br>
+                <div align="left">
+                  <span><span class="badge badge-<%= workload_class_name %>"><%= v['Thursday'][:workload] %>%</span> workload</span>
+                  <br>
+                  <span><span class="badge badge-<%= period_class_name %>"><%= v['Thursday'][:period] %></span> period</span>
+                  <br>
+                  <span><span class="badge badge-info"><%= v['Thursday'][:visits] %></span> visits</span>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+        </td>
+
+        <td style="border-top: none; border-bottom: none;">
+          <% if v['Friday'] %>
+
+            <%
+              if v['Friday'][:workload] < 30
+                workload_class_name = 'success'
+              elsif v['Friday'][:workload] >= 30 && v['Friday'][:workload] < 80
+                workload_class_name = 'warning'
+              else
+                workload_class_name = 'danger'
+              end
+
+              if v['Friday'][:period] < 1
+                period_class_name = 'danger'
+              elsif v['Friday'][:period] >= 1 && v['Friday'][:period] < 2
+                period_class_name = 'warning'
+              else
+                period_class_name = 'success'
+              end
+            %>
+
+            <%= link_to root_path(date_for_schedule: v['Friday'][:date]), :action => 'go' do %>
+              <div class="btn btn-light" style="width: 10rem; height: 10rem; border: 1px solid rgba(154,152,150,0.55);">
+                <h2 align="right"><%= v['Friday'][:date].strftime('%e') %></h2>
+                <br>
+                <div align="left">
+                  <span><span class="badge badge-<%= workload_class_name %>"><%= v['Friday'][:workload] %>%</span> workload</span>
+                  <br>
+                  <span><span class="badge badge-<%= period_class_name %>"><%= v['Friday'][:period] %></span> period</span>
+                  <br>
+                  <span><span class="badge badge-info"><%= v['Friday'][:visits] %></span> visits</span>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+        </td>
+
+        <td style="border-top: none; border-bottom: none;">
+          <% if v['Saturday'] %>
+
+            <%
+              if v['Saturday'][:workload] < 30
+                workload_class_name = 'success'
+              elsif v['Saturday'][:workload] >= 30 && v['Saturday'][:workload] < 80
+                workload_class_name = 'warning'
+              else
+                workload_class_name = 'danger'
+              end
+
+              if v['Saturday'][:period] < 1
+                period_class_name = 'danger'
+              elsif v['Saturday'][:period] >= 1 && v['Saturday'][:period] < 2
+                period_class_name = 'warning'
+              else
+                period_class_name = 'success'
+              end
+            %>
+
+            <%= link_to root_path(date_for_schedule: v['Saturday'][:date]), :action => 'go' do %>
+              <div class="btn btn-light" style="width: 10rem; height: 10rem; border: 1px solid rgba(244,148,154,0.55);">
+                <h2 align="right"><%= v['Saturday'][:date].strftime('%e') %></h2>
+                <br>
+                <div align="left">
+                  <span><span class="badge badge-<%= workload_class_name %>"><%= v['Saturday'][:workload] %>%</span> workload</span>
+                  <br>
+                  <span><span class="badge badge-<%= period_class_name %>"><%= v['Saturday'][:period] %></span> period</span>
+                  <br>
+                  <span><span class="badge badge-info"><%= v['Saturday'][:visits] %></span> visits</span>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+        </td>
+
+        <td style="border-top: none; border-bottom: none;">
+          <% if v['Sunday'] %>
+
+            <%
+              if v['Sunday'][:workload] < 30
+                workload_class_name = 'success'
+              elsif v['Sunday'][:workload] >= 30 && v['Sunday'][:workload] < 80
+                workload_class_name = 'warning'
+              else
+                workload_class_name = 'danger'
+              end
+
+              if v['Sunday'][:period] < 1
+                period_class_name = 'danger'
+              elsif v['Sunday'][:period] >= 1 && v['Sunday'][:period] < 2
+                period_class_name = 'warning'
+              else
+                period_class_name = 'success'
+              end
+            %>
+
+            <%= link_to root_path(date_for_schedule: v['Sunday'][:date]), :action => 'go' do %>
+              <div class="btn btn-light" style="width: 10rem; height: 10rem; border: 1px solid rgba(244,148,154,0.55);">
+                <h2 align="right"><%= v['Sunday'][:date].strftime('%e') %></h2>
+                <br>
+                <div align="left">
+                  <span><span class="badge badge-<%= workload_class_name %>"><%= v['Sunday'][:workload] %>%</span> workload</span>
+                  <br>
+                  <span><span class="badge badge-<%= period_class_name %>"><%= v['Sunday'][:period] %></span> period</span>
+                  <br>
+                  <span><span class="badge badge-info"><%= v['Sunday'][:visits] %></span> visits</span>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+        </td>
+
+      </tr>
+    <% } %>
+    </tbody>
+  </table>
+  <%= link_to "&#9660;".html_safe, month_path(date_for_schedule: @begin_of_month.next_month), class: "btn btn-light btn-sm btn-block mt-3" %>
+
+</div>

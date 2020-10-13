@@ -1,0 +1,23 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  client: one
+  label: MyString
+  description: MyString
+  date: 2020-10-01
+  start: 2020-10-01 12:53:28
+  duration: 1
+  value: 1
+  state: MyString
+
+two:
+  user: two
+  client: two
+  label: MyString
+  description: MyString
+  date: 2020-10-01
+  start: 2020-10-01 12:53:28
+  duration: 1
+  value: 1
+  state: MyString

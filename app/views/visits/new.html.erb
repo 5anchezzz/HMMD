@@ -1,0 +1,169 @@
+<div class="container">
+  <h1>New Visit</h1>
+
+  <%= form_for @visit, :html => {:class => "form-horizontal center"} do |f| %>
+
+    <%
+      if params[:start_date_time]
+        set_datetime = params[:start_date_time].to_datetime
+      else
+        set_datetime = Time.now
+      end
+    %>
+
+    <div class="form-group">
+      <%= f.label :client_id, "Client", class: "col-md-4 control-label" %>
+      <div class="col-md-8">
+        <%= f.select :client_id, options_from_collection_for_select(@clients, "id", "full_name", params[:client_id]), { prompt: '-- Select One --'}, {required: true} %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :label, "Label (40 symbols max):", class: "col-md-4 control-label" %>
+      <div class="col-md-8">
+        <%= f.text_field :label, :as => :text, :maxlength => 40, required: true, class: "form-control" %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :description, "Description:", class: "col-md-4 control-label" %>
+      <div class="col-md-8">
+        <%= f.text_area :description, required: true, class: "form-control" %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :date, "Date:", class: "col-md-4 control-label" %>
+      <div class="col-md-8">
+        <%= f.date_select :date, selected: set_datetime, required: true, class: "form-control" %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :start, "Start:", class: "col-md-4 control-label" %>
+      <div class="col-md-8">
+        <%= f.time_select :start, selected: set_datetime, required: true, class: "form-control", minute_step: 30  %>
+
+      </div>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :duration, "Duration (hours):", class: "col-md-4 control-label" %>
+      <div class="col-md-8">
+        <%= f.select :duration, options_for_select(ALL_DURATIONS), { prompt: '-- Select One --'}, {required: true} %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :value, "Value:", class: "col-md-4 control-label" %>
+      <div class="col-md-8">
+        <%= f.number_field :value, min: 0, step: 1, class: "form-control" %>
+      </div>
+    </div>
+
+<!--    <div class="form-group ml-3 mb-5">-->
+      <%# hidden_field_tag :preparing %>
+<!--      <%#= check_box_tag :preparing %> Additional preparation is required-->
+<!--    </div>-->
+
+    <br>
+    <hr>
+    <br>
+
+    <p class="d-flex justify-content-end">
+      <button class="btn btn-outline-success" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+        Add reminder
+      </button>
+    </p>
+    <div class="collapse" id="collapseExample">
+<!--      <div class="card card-body">-->
+        <div>
+
+
+          <%= f.fields_for :reminders do |r| %>
+
+            <h3>Add reminder for this Visit if you need it</h3>
+
+            <div class="form-group">
+              <%= r.label :label, "* Label (40 symbols max):", class: "col-md-4 control-label" %>
+              <div class="col-md-8">
+                <%= r.text_field :label, :as => :text, :maxlength => 40, class: "form-control" %>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <%= r.label :description, "Description:", class: "col-md-4 control-label" %>
+              <div class="col-md-8">
+                <%= r.text_area :description, class: "form-control" %>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <%= r.label :days_to_show, "* Days to show:", class: "col-md-4 control-label" %>
+              <div class="col-md-8">
+                <%= r.number_field :days_to_show, min: 1, step: 1, class: "form-control" %>
+              </div>
+            </div>
+
+          <% end %>
+
+
+        </div>
+
+
+
+<!--      </div>-->
+    </div>
+
+
+
+
+
+
+<!--    <div>-->
+
+
+        <%#= f.fields_for :reminders do |r| %>
+
+<!--          <h3 class="mt-5" >Add reminder for this Visit if you need it</h3>-->
+
+<!--          <div class="form-group">-->
+            <%#= r.label :label, "Label (40 symbols max):", class: "col-md-4 control-label" %>
+<!--            <div class="col-md-8">-->
+              <%#= r.text_field :label, :as => :text, :maxlength => 40, class: "form-control" %>
+<!--            </div>-->
+<!--          </div>-->
+
+<!--          <div class="form-group">-->
+            <%#= r.label :description, "Description:", class: "col-md-4 control-label" %>
+<!--            <div class="col-md-8">-->
+              <%#= r.text_area :description, class: "form-control" %>
+<!--            </div>-->
+<!--          </div>-->
+
+<!--          <div class="form-group">-->
+            <%#= r.label :days_to_show, "Days to show:", class: "col-md-4 control-label" %>
+<!--            <div class="col-md-8">-->
+              <%#= r.number_field :days_to_show, min: 1, step: 1, class: "form-control" %>
+<!--            </div>-->
+<!--          </div>-->
+
+        <%# end %>
+
+
+<!--      </div>-->
+
+
+
+
+
+
+    <%= link_to "Back", visits_path, class: "btn btn-outline-secondary mt-5 ml-2" %>
+    <%= f.submit "Submit", class: "btn btn-default btn-secondary mt-5 ml-3" %>
+
+  <% end %>
+
+
+
+
+</div>

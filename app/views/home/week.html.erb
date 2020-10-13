@@ -1,0 +1,46 @@
+<div class="container">
+  <h1>Week #<%= @week_number %></h1>
+  <%= link_to "&#9650;".html_safe, week_path(date_for_schedule: @date_of_week_start - 7), class: "btn btn-light btn-sm btn-block mt-5 mb-3" %>
+  <table class="table table-hover text-center">
+    <thead>
+    <tr>
+      <th class="align-middle" scope="col" style="width: 15%">DAY</th>
+      <th class="align-middle" scope="col" style="width: 15%">DATE</th>
+      <th class="align-middle" scope="col" style="width: 20%">WORKLOAD, %</th>
+      <th class="align-middle" scope="col" style="width: 20%">LONGEST AVAILABLE PERIOD, h.</th>
+      <th class="align-middle" scope="col" style="width: 20%">VISITS, pc.</th>
+      <th class="align-middle" scope="col" style="width: 10%"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @hash_to_show.each_with_index { |(key, value), index|  %>
+      <tr>
+        <%
+           if value[:workload] < 30
+             workload_class_name = 'success'
+           elsif value[:workload] >= 30 && value[:workload] < 80
+             workload_class_name = 'warning'
+           else
+             workload_class_name = 'danger'
+           end
+
+           if value[:longest_available_period] < 1
+             period_class_name = 'danger'
+           elsif value[:longest_available_period] >= 1 && value[:longest_available_period] < 2
+             period_class_name = 'warning'
+           else
+             period_class_name = 'success'
+           end
+        %>
+        <th class="text-left" scope="row"><%= ALL_DAYS[index] %></th>
+        <td><%= value[:date] %></td>
+        <td><h3 class="badge badge-<%= workload_class_name %>" style="font-size: 100%;"><%= value[:workload] %></h3></td>
+        <td><h3 class="badge badge-<%= period_class_name %>" style="font-size: 100%;"><%= value[:longest_available_period] %></h3></td>
+        <td><h3 class="badge badge-light" style="font-size: 100%;"><%= value[:visits] %></h3></td>
+        <td><%= link_to 'Show', root_path(date_for_schedule: value[:date]), class: "btn btn-outline-secondary btn-sm" %></td>
+      </tr>
+    <% } %>
+    </tbody>
+  </table>
+  <%= link_to "&#9660;".html_safe, week_path(date_for_schedule: @date_of_week_start + 7), class: "btn btn-light btn-sm btn-block mt-3" %>
+</div>

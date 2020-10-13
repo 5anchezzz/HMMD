@@ -1,0 +1,91 @@
+<% if @client.sex == 'female' %>
+  <% img_link = 'https://www.flaticon.com/svg/static/icons/svg/2922/2922572.svg' %>
+<% elsif @client.sex == 'male' %>
+  <% img_link = 'https://www.flaticon.com/svg/static/icons/svg/2922/2922506.svg' %>
+<% else %>
+  <% img_link = 'https://www.flaticon.com/svg/static/icons/svg/2922/2922601.svg' %>
+<% end %>
+
+<div class="container d-flex justify-content-center">
+  <div class="card" style="width: 300px;">
+    <img class="card-img-top" style="width: 300px;" src="<%= img_link %>" alt="Card image cap">
+    <div class="card-body">
+      <div style="display: flex; align-items: flex-end">
+        <h3 class="card-title"><%= @client.name + " " + @client.surname %></h3>
+        <a href="<%= edit_client_path %>" style="font-size: 24px; margin-left: auto; margin-bottom: 12px;"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5L13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175l-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
+        </svg></a>
+      </div>
+      <p class="card-text"><%= @client.description %></p>
+
+      <div class="d-flex justify-content-end">
+        <% if @client.blocked %>
+          <%= button_to "Unblock", unblock_client_path,  :method => :patch, class: "btn btn-success btn-sm", data: { confirm: 'Are you sure you want to UNBLOCK this Client?' } %>
+        <% else %>
+          <%= link_to "Create New Visit", new_visit_path(client_id: @client.id), class: "btn btn-outline-primary btn-sm" %>
+          <%= button_to "Block", block_client_path,  :method => :patch, class: "btn btn-outline-danger ml-2 btn-sm", data: { confirm: 'Are you sure you want to BLOCK this Client?' } %>
+        <% end %>
+      </div>
+
+    </div>
+    <ul class="list-group list-group-flush">
+
+      <li class="list-group-item">
+        <h5 class="card-title">Contacts</h5>
+        <span>tel.: <%= number_to_phone(@client.phone, country_code: 7) %></span>
+        <br>
+        <span>email: <%= @client.email %></span>
+      </li>
+
+      <li class="list-group-item">
+        <h5 class="card-title">About Client</h5>
+        <span>Sex: <%= @client.sex %></span>
+        <br>
+        <span>Birthday: <%= @client.birthday %></span>
+      </li>
+
+      <li class="list-group-item">
+        <h5 class="card-title">Analytics</h5>
+
+        <% if @client.analytics('late') < 1 %>
+          <% late_bage = 'success' %>
+        <% elsif @client.analytics('late') >= 1 && @client.analytics('late') < 10 %>
+          <% late_bage = 'warning' %>
+        <% else %>
+          <% late_bage = 'danger' %>
+        <% end %>
+
+        <span>Late: <span class="badge badge-<%= late_bage %>"><%= @client.analytics('late') %>%</span></span>
+        <br>
+
+        <% if @client.analytics('negative') < 1 %>
+          <% negative_bage = 'success' %>
+        <% elsif @client.analytics('negative') >= 1 && @client.analytics('negative') < 10 %>
+          <% negative_bage = 'warning' %>
+        <% else %>
+          <% negative_bage = 'danger' %>
+        <% end %>
+
+        <span>Negative: <span class="badge badge-<%= negative_bage %>"><%= @client.analytics('negative') %>%</span></span>
+        <br>
+
+        <% if @client.analytics('interval') < 1 %>
+          <% interval_bage = 'success' %>
+        <% elsif @client.analytics('interval') >= 1 && @client.analytics('interval') < 10 %>
+          <% interval_bage = 'warning' %>
+        <% else %>
+          <% interval_bage = 'danger' %>
+        <% end %>
+
+        <span>Interval: <span class="badge badge-<%= interval_bage %>"><%= @client.analytics('interval') %>%</span></span>
+      </li>
+
+    </ul>
+  </div>
+</div>
+
+<div class="container d-flex justify-content-center mt-3">
+  <% back_link = @client.blocked ? archived_clients_path : clients_path %>
+  <% button_name = @client.blocked ? "All archived clients" : "All actual clients" %>
+  <%= link_to button_name, back_link, class: "btn btn-outline-secondary ml-2" %>
+</div>

@@ -1,0 +1,127 @@
+<div class="container-body">
+  <div class="container" style="max-width: 70%; margin: 0">
+  <div class="d-flex align-items-center justify-content-center">
+    <img class="rounded float-left d-flex" style="height: 30rem;" src="https://www.flaticon.com/svg/static/icons/svg/3497/3497498.svg" alt="Card image cap">
+    <%
+      case @visit.state
+      when 'waiting'
+        state_class_name = 'warning'
+      when 'done'
+        state_class_name = 'success'
+      when 'canceled'
+        state_class_name = 'danger'
+      end
+    %>
+
+    <div class="card" style="width: 50rem; height: 30rem;">
+      <div class="card-body">
+        <div style="display: flex; align-items: flex-end">
+          <h4 class="card-title"><%= @visit.label.capitalize %> <span class="badge badge-<%= state_class_name %>"><%= @visit.state %></span></h4>
+          <% if @visit.waiting? %>
+            <a href="<%= edit_visit_path %>" style="font-size: 24px; margin-left: auto; margin-bottom: 12px;"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5L13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175l-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
+            </svg></a>
+          <% end %>
+        </div>
+        <p class="card-text"><%= @visit.description %></p>
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item"><span class="text-muted">Client: </span><%= @visit.client.full_name %></li>
+        <li class="list-group-item"><span class="text-muted">Date&Time: </span><%= "#{@visit.date}  #{@visit.start.strftime("%H:%M")}" %></li>
+        <li class="list-group-item"><span class="text-muted">Duration: </span><%= @visit.duration %></li>
+        <li class="list-group-item"><span class="text-muted">Value: </span><%= number_to_currency(@visit.value, unit: "&#8381;".html_safe, separator: ",", delimiter: " ", format: "%n %u") %></li>
+        <li class="list-group-item">
+          <% if @visit.reminders.attention.any? %>
+            <span class="text-warning">
+              <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-exclamation-square-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>
+              </svg>
+            </span>
+            <span class="text-muted">Actual reminders: </span><%= @visit.reminders.attention.size %>
+          <% else %>
+            <span class="text-muted">Actual reminders: </span>none
+          <% end %>
+
+        </li>
+      </ul>
+      <div class="card-footer d-flex justify-content-between">
+        <div class="d-flex justify-content-start">
+          <%#= button_to "Done", done_visit_path,  :method => :patch, class: "btn btn-outline-success btn-sm mr-2", data: { confirm: 'Are you sure you want to DONE this Visit?' } if @visit.waiting? %>
+          <% if @visit.waiting? %>
+            <button type="button" class="btn btn-outline-success btn-sm mr-2" data-toggle="modal" data-target="#exampleModal">
+              Done
+            </button>
+          <% end %>
+
+          <%= button_to "Cancel", cancel_visit_path,  :method => :patch, class: "btn btn-outline-secondary btn-sm", data: { confirm: 'Are you sure you want to CANCEL this Visit?' } unless @visit.done? || @visit.canceled? %>
+          <%= button_to "Revival", revival_visit_path,  :method => :patch, class: "btn btn-outline-success btn-sm", data: { confirm: 'Are you sure you want to REVIVAL this Visit?' } unless @visit.waiting? %>
+        </div>
+        <div>
+          <%= button_to 'Delete', visit_path(@visit), class: 'btn btn-danger btn-sm ml-2', method: :delete, data: { confirm: 'Are you sure you want to DELETE this Visit?' } %>
+        </div>
+      </div>
+    </div>
+  </div>
+      <%= link_to "Show this day", root_path(date_for_schedule: @visit.date), class: "btn btn-light btn-block mt-3" %>
+  </div>
+
+
+
+
+  <div class="col" style="max-width: 25%; position: relative; max-height: calc(100vh - 150px); overflow: auto;">
+
+    <%= link_to new_reminder_path(visit_id: @visit.id), {:style=>'text-decoration:none; '}, :action => 'go' do %>
+      <div class="btn btn-outline-success btn-block d-flex justify-content-center mb-3">
+        <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-plus-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+          <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+        </svg>
+        <span class="d-flex align-items-center ml-3">Create new reminder</span>
+      </div>
+    <% end %>
+
+    <%= render  partial: 'shared/reminder',
+                collection: @visit.reminders,
+                locals: { show_link: false } %>
+
+  </div>
+
+</div>
+
+<!--<div class="container d-flex justify-content-center mt-5">-->
+  <%#= link_to "All Visits", visits_path, class: "btn btn-outline-secondary" %>
+  <%#= link_to "This day", root_path(date_for_schedule: @visit.date), class: "btn btn-outline-secondary btn-block" %>
+<!--</div>-->
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="exampleModalLabel">Done Visit</h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h5>Set the required parameters to complete</h5>
+        <%= form_for @visit, :html => {:class => "form-horizontal center"} do |f| %>
+          <%= hidden_field_tag 'done_action', true %>
+          <div class="checkbox mt-5 ">
+            <%= f.check_box :late %> The client is late
+          </div>
+          <div class="checkbox">
+            <%= f.check_box :negative %> There is a negative impression from the visit
+          </div>
+          <div class="checkbox mb-5">
+            <%= f.check_box :interval %> The time interval was selected incorrectly
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline-success" data-dismiss="modal">Back</button>
+            <%= f.submit "Done", class: "btn btn-success" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

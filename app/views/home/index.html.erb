@@ -1,0 +1,45 @@
+<div class="container-body">
+
+<% if current_user.present? && current_user.state == 'completed' %>
+    <div class="container" style="max-width: 50%; margin: 0">
+      <div class="d-flex justify-content-between mb-3">
+        <div class="align-self-end">
+          <%= link_to "&#9776; Week".html_safe, week_path(date_for_schedule: params[:date_for_schedule]), class: "btn btn-light" %>
+          <%= link_to "&#9783; Month".html_safe, month_path(date_for_schedule: params[:date_for_schedule]), class: "btn btn-light" %>
+        </div>
+
+        <form class="d-flex justify-content-end">
+          <div class="align-self-center"><h2>Schedule for </h2></div>
+          <div class="align-self-center ml-3 mr-3"><input class="form-control-lg" type="date" value="<%= params[:date_for_schedule] || Date.today %>" id="example-date-input" name="date_for_schedule"></div>
+          <div class="align-self-center"><button class="btn btn-success">Show</button></div>
+        </form>
+      </div>
+
+      <%= render partial: 'shared/oneday',
+                 locals: { show_link: true } %>
+
+    </div>
+
+  <div class="col" style="max-width: 20%; position: relative; max-height: calc(100vh - 150px); overflow: auto;">
+<!--    <div class="search-form" style="max-width: 20%; ">-->
+    <%= render  partial: 'shared/reminder',
+                collection: @reminders,
+                locals: { show_link: true } %>
+<!--    </div>-->
+  </div>
+
+
+
+
+<% elsif current_user.present? && current_user.state == 'new' %>
+    <div>
+      <h1>You should to complete registration to start</h1>
+      <br>
+      <%= link_to "Complete registration", edit_user_path(current_user), class: "btn btn-primary mb-3" %>
+    </div>
+<% else%>
+    <h1>Show something for another states</h1>
+<% end %>
+
+
+</div>

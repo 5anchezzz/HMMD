@@ -1,0 +1,97 @@
+<div class="container-body">
+
+  <div class="container" style="max-width: 70%; margin: 0">
+    <%= link_to "Create new Visit", new_visit_path, class: "btn btn-secondary btn-lg btn-block mb-3" %>
+    <h1 align="right">All Visits <span class="badge badge-secondary"><%= current_user.visits.size %></span></h1>
+
+    <table class="table table-hover mt-3">
+      <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Label</th>
+        <th scope="col">Client</th>
+        <th scope="col">Date</th>
+        <th scope="col">State</th>
+        <th scope="col"></th>
+      </tr>
+      </thead>
+      <tbody>
+
+      <% @visits.each_with_index { |visit, index|  %>
+        <tr>
+          <th scope="row"><%= index + 1 %></th>
+          <td><%= visit.label %></td>
+          <td><%= visit.client.full_name %></td>
+          <td><%= visit.date %></td>
+          <td><%= visit.state %></td>
+          <td><%= link_to "Show", visit_path(visit), class: "btn btn-outline-secondary btn-sm" %></td>
+        </tr>
+      <% } %>
+      </tbody>
+    </table>
+
+    <%= paginate @visits %>
+
+  </div>
+
+  <div class="col" style="max-width: 20%; position: relative;">
+    <div class="search-form" style="max-width: 20%;">
+      <form>
+        <h4 class="d-flex justify-content-center mt-3 mb-3">Search visits</h4>
+        <div>
+          <%= search_form_for @q do |f| %>
+
+            <div class="form-group">
+              <%= f.label "Label:", class: "col-md-4 control-label" %>
+              <div class="col-auto">
+                <%= f.search_field :label_cont, class: "form-control", placeholder: "contains" %>
+              </div>
+            </div>
+
+            <div class="row d-flex justify-content-between">
+              <div class="col form-group">
+                <%= f.label "Client Name:", class: "col-auto control-label" %>
+                <div class="col-auto">
+                  <%= f.search_field :client_name_cont, class: "form-control", placeholder: "contains" %>
+                </div>
+              </div>
+              <div class="col form-group">
+                <%= f.label "Client Surname:", class: "col-auto control-label" %>
+                <div class="col-auto">
+                  <%= f.search_field :client_surname_cont, class: "form-control", placeholder: "contains" %>
+                </div>
+              </div>
+            </div>
+
+            <div class="row d-flex justify-content-between">
+              <div class="col form-group">
+                <%= f.label "Date from:", class: "col-auto control-label" %>
+                <div class="col-auto">
+                  <%= f.date_field :date_gteq, class: "form-control", type: "date" %>
+                </div>
+              </div>
+              <div class="col form-group">
+                <%= f.label "Date to:", class: "col-auto control-label" %>
+                <div class="col-auto">
+                  <%= f.date_field :date_lteq, class: "form-control", type: "date" %>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <%= f.label "State:", class: "col-md-4 control-label" %>
+              <div class="col-auto">
+                <%= f.select :state_eq, options_for_select(ALL_VISIT_STATES), { prompt: '-- Select One --' }, class: "form-control" %>
+              </div>
+            </div>
+
+            <div class="col-auto d-flex justify-content-end mt-3 mb-3">
+              <%= f.submit :Search, type: "submit", class: "btn btn-outline-success" %>
+              <%= link_to '&times;'.html_safe, request.path, class: "btn btn-light ml-3" %>
+            </div>
+          <% end %>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

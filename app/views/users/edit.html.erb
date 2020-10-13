@@ -1,0 +1,108 @@
+<div class="container">
+  <h2 class="form-group ml-5 mb-5">Edit my profile</h2>
+
+  <%= form_for @user, :html => {:class => "form-horizontal center"} do |f| %>
+    <div class="form-group">
+      <%= f.label :name, "First name:", class: "col-md-4 control-label" %>
+      <div class="col-md-8">
+        <%= f.text_field :name, required: true, class: "form-control" %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :surname, "Last name:", class: "col-md-4 control-label" %>
+      <div class="col-md-8">
+        <%= f.text_field :surname, required: true, class: "form-control" %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :birthday, "Birthday:", class: "col-md-4 control-label" %>
+      <div class="col-md-8">
+        <%= f.date_field :birthday, required: true, class: "form-control" %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :sex, "Sex:", class: "col-md-4 control-label" %>
+      <div class="col-md-8">
+        <%= f.select :sex, ALL_SEXES, required: true, class: "form-control" %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :phone, "Phone:", class: "col-md-4 control-label" %>
+      <div class="col-md-8">
+        <%= f.text_field :phone, required: true, class: "form-control" %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :city, "City:", class: "col-md-4 control-label" %>
+      <div class="col-md-8">
+        <%= f.text_field :city, required: true, class: "form-control" %>
+      </div>
+    </div>
+
+    <div class="form-group mb-5">
+      <%= f.label :country, "Country:", class: "col-md-4 control-label" %>
+      <div class="col-md-8">
+        <%= f.text_field :country, required: true, class: "form-control" %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :field_of_activity, "Field of activity:", class: "col-md-4 control-label" %>
+      <div class="col-md-8">
+        <%= f.select :field_of_activity, ALL_FIELDS_OF_ACTIVITY, required: true, class: "form-control" %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :organization_name, "Organization name:", class: "col-md-4 control-label" %>
+      <div class="col-md-8">
+        <%= f.text_field :organization_name, required: true, class: "form-control" %>
+      </div>
+    </div>
+
+    <div class="form-group mb-5">
+      <%= f.label :organization_address, "Organization address:", class: "col-md-4 control-label" %>
+      <div class="col-md-8">
+        <%= f.text_field :organization_address, required: true, class: "form-control" %>
+      </div>
+    </div>
+
+    <div class="form-group col-md-8 d-flex justify-content-between">
+
+      <div class="form-group" style="max-width: none;">
+        <%= f.label :start_hour, "Start hour:", class: "col control-label" %>
+        <div class="col">
+          <%= f.select :start_hour, ALL_HOURS, required: true, class: "form-control" %>
+        </div>
+      </div>
+
+      <div class="form-group" style="max-width: none;">
+        <%= f.label :end_hour, "End hour:", class: "col control-label" %>
+        <div class="col">
+          <%= f.select :end_hour, ALL_HOURS, required: true, class: "form-control" %>
+        </div>
+      </div>
+
+<!--      <div class="form-group" style="max-width: none;">-->
+        <%#= f.label :slot_size, "Slot size, min:", class: "col control-label" %>
+<!--        <div class="col">-->
+          <%#= f.select :slot_size, SLOT_SIZES, required: true, class: "form-control" %>
+<!--        </div>-->
+<!--      </div>-->
+    </div>
+
+    <div class="checkbox mt-3 mb-5" style="padding-left: 15px;">
+      <%= f.check_box :holiday %> I can work at holidays
+    </div>
+
+    <%= f.submit "Submit", class: "btn btn-default btn-primary ml-3" %>
+    <%= link_to "Back", user_path(current_user), class: "btn btn-outline-primary ml-2" %>
+  <% end %>
+
+
+</div>

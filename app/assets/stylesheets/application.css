@@ -1,0 +1,88 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, or any plugin's
+ * vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
+ * files in this directory. Styles in this file should be added after the last require_* statement.
+ * It is generally better to create a new file per style scope.
+ *
+ *= require_tree .
+ *= require_self
+ */
+body{
+    margin-bottom: 100px;
+}
+.line-separator{
+    border-bottom: 1px solid #f4f4f4;
+    width: 100%;
+    padding: 0;
+}
+.container-body{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+
+
+
+}
+.search-form{
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: .25rem;
+    position: fixed;
+    right: 40px;
+    top: auto;
+}
+
+.day-month{
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: .25rem;
+    width: 10rem;
+    height: 10rem;
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+}
+
+.reminders-block{
+    /*border-right: 1px solid rgba(0,0,0,.125);*/
+    /*border-radius: .25rem;*/
+    position: fixed;
+    left: 40px;
+    top: auto;
+}
+/*footer {*/
+/*    position: absolute;*/
+/*    bottom: 0;*/
+/*    width: 100%;*/
+/*    height: 72px;*/
+/*    padding-left: 2.5rem !important;*/
+/*    padding-right: 2.5rem !important;*/
+/*    background-color: #EDF1F7;*/
+/*    font-weight: 100;*/
+/*    font-size: 14px;*/
+/*    line-height: 16px;*/
+/*    color: #222B45;*/
+/*}*/
+/*footer>p {*/
+/*    margin: 0 !important;*/
+/*}*/
+/*footer>strong {*/
+/*    font-weight: 500;*/
+/*    color: #222B45;*/
+/*}*/
+
+
+/*footer>a {*/
+/*    font-size: 16px;*/
+/*    color: #8F9BB3;*/
+
+/*footer>a:hover {*/
+/*     color: #8F9BB3;*/
+/* }*/
